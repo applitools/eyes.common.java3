@@ -2,6 +2,7 @@ package com.applitools.connectivity.api;
 
 import com.applitools.eyes.AbstractProxySettings;
 import com.applitools.eyes.Logger;
+import com.applitools.eyes.logging.Stage;
 import com.applitools.utils.NetworkUtils;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.config.ClientConfig;
@@ -9,6 +10,7 @@ import com.sun.jersey.client.apache4.config.DefaultApacheHttpClient4Config;
 import com.sun.jersey.client.urlconnection.HTTPSProperties;
 import com.sun.jersey.client.urlconnection.HttpURLConnectionFactory;
 import com.sun.jersey.client.urlconnection.URLConnectionClientHandler;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -17,6 +19,7 @@ import java.io.IOException;
 import java.net.*;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashSet;
 
 public class HttpClientImpl extends HttpClient {
 
@@ -24,6 +27,7 @@ public class HttpClientImpl extends HttpClient {
 
     public HttpClientImpl(Logger logger, int timeout, final AbstractProxySettings abstractProxySettings) {
         super(logger, timeout, abstractProxySettings);
+        logger.log(new HashSet<String>(), Stage.GENERAL, Pair.of("connectivityPackage", "jersey1x"));
 
         // Creating the client configuration
         ClientConfig clientConfig = new DefaultApacheHttpClient4Config();

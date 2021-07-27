@@ -6,7 +6,7 @@ import com.applitools.eyes.logging.TraceLevel;
 import java.util.*;
 
 public class MultiLogHandler extends LogHandler {
-    final Set<LogHandler> logHandlers = new HashSet<>();
+    final Set<LogHandler> logHandlers = Collections.synchronizedSet(new HashSet<LogHandler>());
 
     public MultiLogHandler(LogHandler... logHandlers) {
         super(TraceLevel.Debug);
@@ -27,22 +27,28 @@ public class MultiLogHandler extends LogHandler {
 
     @Override
     public void open() {
-        for (LogHandler logHandler : logHandlers) {
-            logHandler.open();
+        synchronized (logHandlers) {
+            for (LogHandler logHandler : logHandlers) {
+                logHandler.open();
+            }
         }
     }
 
     @Override
     public void onMessageInner(ClientEvent event) {
-        for (LogHandler logHandler : logHandlers) {
-            logHandler.onMessage(event);
+        synchronized (logHandlers) {
+            for (LogHandler logHandler : logHandlers) {
+                logHandler.onMessage(event);
+            }
         }
     }
 
     @Override
     public void close() {
-        for (LogHandler logHandler : logHandlers) {
-            logHandler.close();
+        synchronized (logHandlers) {
+            for (LogHandler logHandler : logHandlers) {
+                logHandler.close();
+            }
         }
     }
 

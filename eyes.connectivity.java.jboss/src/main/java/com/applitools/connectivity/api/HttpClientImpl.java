@@ -3,6 +3,8 @@ package com.applitools.connectivity.api;
 import com.applitools.eyes.AbstractProxySettings;
 import com.applitools.eyes.EyesException;
 import com.applitools.eyes.Logger;
+import com.applitools.eyes.logging.Stage;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -16,6 +18,7 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.engines.ApacheHttpClient4Engine;
 
 import java.net.URI;
+import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 
 public class HttpClientImpl extends HttpClient {
@@ -27,6 +30,7 @@ public class HttpClientImpl extends HttpClient {
 
     public HttpClientImpl(Logger logger, int timeout, AbstractProxySettings abstractProxySettings) {
         super(logger, timeout, abstractProxySettings);
+        logger.log(new HashSet<String>(), Stage.GENERAL, Pair.of("connectivityPackage", "jboss"));
 
         ResteasyClientBuilder builder = new ResteasyClientBuilder();
         builder = builder.establishConnectionTimeout(timeout, TimeUnit.MILLISECONDS)

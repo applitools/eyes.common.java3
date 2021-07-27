@@ -2,7 +2,9 @@ package com.applitools.connectivity.api;
 
 import com.applitools.eyes.AbstractProxySettings;
 import com.applitools.eyes.Logger;
+import com.applitools.eyes.logging.Stage;
 import com.applitools.utils.NetworkUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.glassfish.jersey.apache.connector.ApacheConnectorProvider;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
@@ -14,6 +16,7 @@ import javax.ws.rs.client.ClientBuilder;
 import java.net.URI;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashSet;
 
 public class HttpClientImpl extends HttpClient {
 
@@ -21,6 +24,7 @@ public class HttpClientImpl extends HttpClient {
 
     public HttpClientImpl(Logger logger, int timeout, AbstractProxySettings abstractProxySettings) {
         super(logger, timeout, abstractProxySettings);
+        logger.log(new HashSet<String>(), Stage.GENERAL, Pair.of("connectivityPackage", "jersey2x"));
 
         // Creating the client configuration
         ClientConfig clientConfig = new ClientConfig();
