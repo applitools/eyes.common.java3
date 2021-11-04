@@ -20,6 +20,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.zip.GZIPOutputStream;
 
 /**
@@ -37,6 +38,8 @@ public class GeneralUtils {
     private static final String DATE_FORMAT_RFC1123 =
             "E, dd MMM yyyy HH:mm:ss 'GMT'";
     private static final String QUESTION_MARK = "?";
+
+    private static Map<String, String> envVars_ = new HashMap<>(System.getenv());
 
     private GeneralUtils() {
     }
@@ -209,6 +212,7 @@ public class GeneralUtils {
     public static void logExceptionStackTrace(Logger logger, Stage stage, Throwable ex, String... testIds) {
         logExceptionStackTrace(logger, stage, null, ex, testIds);
     }
+
     public static void logExceptionStackTrace(Logger logger, Stage stage, Type type, Throwable ex, String... testIds) {
         Set<String> ids = new HashSet<>();
         if (testIds != null && testIds.length > 0) {
@@ -288,9 +292,9 @@ public class GeneralUtils {
     /**
      * Parse json to object t.
      *
-     * @param <T>       The type parameter
-     * @param jsonStr   The JSON string to parse
-     * @param tClass    The Class object of Type {@code T}
+     * @param <T>     The type parameter
+     * @param jsonStr The JSON string to parse
+     * @param tClass  The Class object of Type {@code T}
      * @return An instance of Class {@code T}, created by parsing of the given JSON string
      * @throws IOException An IO Exception
      */
@@ -359,10 +363,24 @@ public class GeneralUtils {
     }
 
     public static String getEnvString(String applitools_env) {
-        return System.getenv(applitools_env) == null ? System.getenv("bamboo_" + applitools_env) : System.getenv(applitools_env);
+        String result = envVars_.get(applitools_env);
+        if (result == null) {
+            result = envVars_.get("bamboo_" + applitools_env);
+        }
+        return result;
+    }
+
+    public static String setEnvironmentVariable(String name, String value) {
+        return envVars_.put(name, value);
+    }
+
+    public static void printEnv() {
+        for (Entry entry : envVars_.entrySet()) {
+            System.out.println(entry.getKey() + " = " + entry.getValue());
+        }
     }
 
     public static boolean getDontCloseBatches() {
-        return "true".equalsIgnoreCase(GeneralUtils.getEnvString("APPLITOOLS_DONT_CLOSE_BATCHES"));
+        return "true".equalsIgnoreCase(getEnvString("APPLITOOLS_DONT_CLOSE_BATCHES"));
     }
 }
