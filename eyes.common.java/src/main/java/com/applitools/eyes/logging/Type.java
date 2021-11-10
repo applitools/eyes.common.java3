@@ -20,5 +20,6 @@ public enum Type {
     REQUEST_FAILED,
     CLOSE_BATCH,
     TEST_RESULTS,
-    TIMEOUT
+    TIMEOUT,
+    STITCH;
 }
