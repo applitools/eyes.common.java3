@@ -1,6 +1,8 @@
 package com.applitools.eyes;
 
 import com.applitools.eyes.exceptions.NotSupportedException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,12 +51,19 @@ public class UserAgent {
 
     private static final Pattern EDGE_REGEX = Pattern.compile(String.format(PRODUCT, "Edge?"));
 
+    @JsonProperty("originalUserAgentString")
     private String originalUserAgentString;
+    @JsonProperty("os")
     private String os;
+    @JsonProperty("osMajorVersion")
     private String osMajorVersion;
+    @JsonProperty("osMinorVersion")
     private String osMinorVersion;
+    @JsonProperty("browser")
     private String browser;
+    @JsonProperty("browserMajorVersion")
     private String browserMajorVersion;
+    @JsonProperty("browserMinorVersion")
     private String browserMinorVersion;
 
     /**
@@ -208,34 +217,42 @@ public class UserAgent {
         return result;
     }
 
+    @JsonIgnore
     public String getOriginalUserAgentString() {
         return originalUserAgentString;
     }
 
+    @JsonIgnore
     public String getOS() {
         return os;
     }
 
+    @JsonIgnore
     public String getOSMajorVersion() {
         return osMajorVersion;
     }
 
+    @JsonIgnore
     public String getOSMinorVersion() {
         return osMinorVersion;
     }
 
+    @JsonIgnore
     public String getBrowser() {
         return browser;
     }
 
+    @JsonIgnore
     public String getBrowserMajorVersion() {
         return browserMajorVersion;
     }
 
+    @JsonIgnore
     public String getBrowserMinorVersion() {
         return browserMinorVersion;
     }
 
+    @JsonIgnore
     public boolean isInternetExplorer() {
         // Version 18 of Edge is currently the last version of the legacy Edge browser (44)
         return browser.equals(BrowserNames.IE) || (browser.equals(BrowserNames.EDGE) && Integer.parseInt(browserMajorVersion) <= 18);
