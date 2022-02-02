@@ -428,4 +428,5 @@ public class GeneralUtils {
     String[] array = charSequence.split(regex);
     return array[array.length-1].trim();
   }
+  
 }
