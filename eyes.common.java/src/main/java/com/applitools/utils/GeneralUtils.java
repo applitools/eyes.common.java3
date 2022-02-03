@@ -20,9 +20,11 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 import java.util.zip.GZIPOutputStream;
 
 import com.applitools.eyes.EyesException;
@@ -428,5 +430,5 @@ public class GeneralUtils {
     String[] array = charSequence.split(regex);
     return array[array.length-1].trim();
   }
-  
+
 }
