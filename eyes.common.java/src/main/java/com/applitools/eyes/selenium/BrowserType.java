@@ -26,7 +26,8 @@ public enum BrowserType {
     EDGE_LEGACY("edgelegacy"),
     EDGE_CHROMIUM("edgechromium"),
     EDGE_CHROMIUM_ONE_VERSION_BACK("edgechromium-one-version-back"),
-    EDGE_CHROMIUM_TWO_VERSIONS_BACK("edgechromium-two-versions-back");
+    EDGE_CHROMIUM_TWO_VERSION_BACK("edgechromium-two-version-back");
+
 
     private final String name;
 
