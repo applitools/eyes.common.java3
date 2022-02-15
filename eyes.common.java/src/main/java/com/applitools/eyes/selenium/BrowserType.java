@@ -45,4 +45,6 @@ public enum BrowserType {
                 "name='" + name + '\'' +
                 '}';
     }
+
+
 }
