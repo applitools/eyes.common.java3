@@ -1,5 +1,7 @@
 package com.applitools.eyes.selenium;
 
+import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum BrowserType {
@@ -38,6 +40,17 @@ public enum BrowserType {
     @JsonValue
     public String getName() {
         return name;
+    }
+
+    /**
+     * @return the Enum representation for the given string.
+     * @throws IllegalArgumentException if unknown string.
+     */
+    public static BrowserType fromString(String s) throws IllegalArgumentException {
+        return Arrays.stream(BrowserType.values())
+            .filter(v -> v.name.equalsIgnoreCase(s))
+            .findFirst()
+            .orElse(null);
     }
 
     @Override

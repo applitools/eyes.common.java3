@@ -430,8 +430,10 @@ public class GeneralUtils {
     StringBuilder sb = new StringBuilder();
     for (int i = 1; i < array.length; i++) {
       sb.append(array[i]);
+      sb.append(regex);
     }
 
+    sb.deleteCharAt(sb.length()-1);
     return sb.toString().trim();
   }
 
