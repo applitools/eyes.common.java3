@@ -43,6 +43,7 @@ public class BrowserNames {
 
             case EDGE_CHROMIUM:
             case EDGE_CHROMIUM_ONE_VERSION_BACK:
+            case EDGE_CHROMIUM_TWO_VERSION_BACK:
                 return EDGE_CHROMIUM;
         }
         return null;
