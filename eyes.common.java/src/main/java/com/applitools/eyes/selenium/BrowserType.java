@@ -46,9 +46,9 @@ public enum BrowserType {
      * @return the Enum representation for the given string.
      * @throws IllegalArgumentException if unknown string.
      */
-    public static BrowserType fromString(String s) throws IllegalArgumentException {
+    public static BrowserType fromName(String value) throws IllegalArgumentException {
         return Arrays.stream(BrowserType.values())
-            .filter(v -> v.name.equalsIgnoreCase(s))
+            .filter(v -> v.name.equalsIgnoreCase(value))
             .findFirst()
             .orElse(null);
     }
