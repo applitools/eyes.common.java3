@@ -209,15 +209,21 @@ public class GeneralUtils {
     public static void logExceptionStackTrace(Logger logger, Stage stage, Throwable ex, String... testIds) {
         logExceptionStackTrace(logger, stage, null, ex, testIds);
     }
+
     public static void logExceptionStackTrace(Logger logger, Stage stage, Type type, Throwable ex, String... testIds) {
         Set<String> ids = new HashSet<>();
         if (testIds != null && testIds.length > 0) {
             ids.addAll(Arrays.asList(testIds));
         }
+
+        logExceptionStackTrace(logger, stage, type, ex, ids);
+    }
+
+    public static void logExceptionStackTrace(Logger logger, Stage stage, Type type, Throwable ex, Set<String> testIds) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream(2048);
         try (PrintWriter writer = new PrintWriter(stream, true)) {
             ex.printStackTrace(writer);
-            logger.log(TraceLevel.Error, ids, stage, type,
+            logger.log(TraceLevel.Error, testIds, stage, type,
                     Pair.of("message", ex.toString()),
                     Pair.of("stacktrace", stream.toString("UTF-8")));
         } catch (Exception e) {
