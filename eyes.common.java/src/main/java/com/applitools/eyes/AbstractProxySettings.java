@@ -19,6 +19,23 @@ public abstract class AbstractProxySettings {
     protected String username;
     protected String password;
     protected int port;
+    protected Boolean isHttpOnly;
+
+    /**
+     * @param uri      The proxy's URI.
+     * @param port     The proxy's port
+     * @param username The username to be sent to the proxy.
+     * @param password The password to be sent to the proxy.
+     * @param isHttpOnly The isHttpOnly to be sent to the proxy.
+     */
+    public AbstractProxySettings(String uri, int port, String username, String password, Boolean isHttpOnly) {
+        ArgumentGuard.notNull(uri, "uri");
+        this.uri = uri;
+        this.port = port;
+        this.username = username;
+        this.password = password;
+        this.isHttpOnly = isHttpOnly;
+    }
 
     /**
      * @param uri      The proxy's URI.
@@ -27,11 +44,7 @@ public abstract class AbstractProxySettings {
      * @param password The password to be sent to the proxy.
      */
     public AbstractProxySettings(String uri, int port, String username, String password) {
-        ArgumentGuard.notNull(uri, "uri");
-        this.uri = uri;
-        this.port = port;
-        this.username = username;
-        this.password = password;
+        this(uri, port, username, password, null);
     }
 
     /**
@@ -82,6 +95,10 @@ public abstract class AbstractProxySettings {
 
     public int getPort() {
         return port;
+    }
+
+    public Boolean isHttpOnly() {
+        return isHttpOnly;
     }
 
     @Override
