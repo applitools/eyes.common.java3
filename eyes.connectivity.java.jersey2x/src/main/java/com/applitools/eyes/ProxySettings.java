@@ -2,6 +2,10 @@ package com.applitools.eyes;
 
 public class ProxySettings extends AbstractProxySettings {
 
+    public ProxySettings(String uri, int port, String username, String password, Boolean isHttpOnly) {
+        super(uri + ":" + port, port, username, password, isHttpOnly);
+    }
+
     public ProxySettings(String uri, int port, String username, String password) {
         super(uri + ":" + port, port, username, password);
     }
