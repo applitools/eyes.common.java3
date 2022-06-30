@@ -25,6 +25,8 @@ public class Region implements IRegion {
     private int height;
     @JsonProperty("coordinatesType")
     private CoordinatesType coordinatesType;
+    @JsonProperty("regionId")
+    private String regionId;
 
     /**
      * The constant EMPTY.
@@ -763,4 +765,12 @@ public class Region implements IRegion {
         return subRegions.toArray(new SubregionForStitching[0]);
     }
 
+    public Region regionId(String regionId) {
+        this.regionId = regionId;
+        return this;
+    }
+
+    public String getRegionId() {
+        return regionId;
+    }
 }
