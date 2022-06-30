@@ -3,6 +3,7 @@ package com.applitools.eyes;
 import com.applitools.utils.ArgumentGuard;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.awt.*;
@@ -14,6 +15,7 @@ import java.util.List;
  * Represents a region.
  */
 @JsonIgnoreProperties({"location", "empty", "middleOffset", "size", "sizeEmpty", "subRegions", "area", "negativeLocation", "right", "bottom"})
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Region implements IRegion {
     @JsonProperty("left")
     private int left;
