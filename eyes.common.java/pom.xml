@@ -15,7 +15,7 @@
     <parent>
         <groupId>com.applitools</groupId>
         <artifactId>eyes-sdk-java5-parent</artifactId>
-        <version>5.12.0</version>
+        <version>5.13.0</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
