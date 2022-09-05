@@ -26,6 +26,7 @@ import java.util.TimeZone;
 import java.util.zip.GZIPOutputStream;
 
 import com.applitools.eyes.EyesException;
+import com.applitools.eyes.EyesRunnable;
 import com.applitools.eyes.Logger;
 import com.applitools.eyes.logging.Stage;
 import com.applitools.eyes.logging.TraceLevel;
@@ -437,4 +438,54 @@ public class GeneralUtils {
     return sb.toString().trim();
   }
 
+  public static String createErrorMessageFromExceptionWithText(Exception e, String errorText) {
+    if (errorText == null) {
+      errorText = "";
+    }
+    if (e == null) {
+      return errorText;
+    }
+
+    return errorText + "Got exception of type: " +  e.getClass()
+            + " , with the following error message: '" + e.getMessage() + "' Stacktrace: " + Arrays.toString(e.getStackTrace());
+  }
+
+
+  public static void tryRunTaskWithRetry(EyesRunnable task, long retryTimeoutSeconds, long sleepTimeBetweenRetiesMS,
+                                         String errorMessageOnTimeout) throws EyesException {
+
+    long taskStartTimeMS = System.currentTimeMillis();
+    long taskElapsedTimeSeconds = 0;
+    boolean taskWasNotRun = true;
+
+
+    do {
+      long taskRunCurrentTime = System.currentTimeMillis();
+      try {
+
+        task.run();
+        taskWasNotRun = false;
+
+      } catch (EyesException e) {
+
+        // If we're passed the timeout, just re-throw
+        taskElapsedTimeSeconds = (taskRunCurrentTime - taskStartTimeMS) / 1000;
+        if (taskElapsedTimeSeconds >= retryTimeoutSeconds) {
+          // TODO add a message for timeout
+          throw e;
+        }
+
+        // Did not pass timeout, sleep before retry
+        try {
+          Thread.sleep(sleepTimeBetweenRetiesMS);
+        } catch (InterruptedException ex) { // We should not be interrupted
+          String errorMessage = GeneralUtils.createErrorMessageFromExceptionWithText(ex,
+                  "Got interrupted while waiting for server start retry!");
+          System.err.println(errorMessage);
+          throw new EyesException(errorMessage, ex);
+        }
+
+      }
+    } while (taskWasNotRun);
+  }
 }
