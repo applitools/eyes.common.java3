@@ -438,19 +438,6 @@ public class GeneralUtils {
     return sb.toString().trim();
   }
 
-  public static String createErrorMessageFromExceptionWithText(Exception e, String errorText) {
-    if (errorText == null) {
-      errorText = "";
-    }
-    if (e == null) {
-      return errorText;
-    }
-
-    return errorText + "Got exception of type: " +  e.getClass()
-            + " , with the following error message: '" + e.getMessage() + "' Stacktrace: " + Arrays.toString(e.getStackTrace());
-  }
-
-
   public static void tryRunTaskWithRetry(EyesRunnable task, long retryTimeoutSeconds, long sleepTimeBetweenRetiesMS,
                                          String errorMessageOnTimeout) throws EyesException {
 
@@ -467,25 +454,43 @@ public class GeneralUtils {
         taskWasNotRun = false;
 
       } catch (EyesException e) {
-
+        System.out.println("Failed to run the task '" + task.getName() +"'.");
         // If we're passed the timeout, just re-throw
         taskElapsedTimeSeconds = (taskRunCurrentTime - taskStartTimeMS) / 1000;
         if (taskElapsedTimeSeconds >= retryTimeoutSeconds) {
-          // TODO add a message for timeout
+          System.out.println(errorMessageOnTimeout);
           throw e;
         }
 
         // Did not pass timeout, sleep before retry
+        System.out.println("Waiting a bit before retry...");
         try {
           Thread.sleep(sleepTimeBetweenRetiesMS);
         } catch (InterruptedException ex) { // We should not be interrupted
           String errorMessage = GeneralUtils.createErrorMessageFromExceptionWithText(ex,
                   "Got interrupted while waiting for server start retry!");
-          System.err.println(errorMessage);
+          System.out.println(errorMessage);
           throw new EyesException(errorMessage, ex);
         }
-
+        System.out.println("Retrying.");
       }
     } while (taskWasNotRun);
   }
+
+  public static String createErrorMessageFromExceptionWithText(Exception e, String errorText) {
+
+    if (errorText == null) {
+      errorText = "";
+    }
+
+    if (e == null) {
+      return errorText;
+    }
+
+    String fullError = errorText + " \nGot exception of type: " +  e.getClass()
+            + " , with the following error message: '" + e.getMessage() + "'\nStacktrace: " + Arrays.toString(e.getStackTrace());
+
+    return fullError + "";
+  }
+
 }
