@@ -209,7 +209,7 @@ public class Region implements IRegion {
         return new Region(getLocation().scale(scaleRatio), getSize().scale(scaleRatio), getCoordinatesType());
     }
 
-    public Region addPadding(Borders padding) {
+    public Region addPadding(Padding padding) {
         return new Region(
                 getLeft() - padding.getLeft(),
                 getTop() - padding.getTop(),
