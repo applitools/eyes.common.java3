@@ -96,4 +96,38 @@ public abstract class AbstractProxySettings {
     public int hashCode() {
         return Objects.hash(uri, username, password, port);
     }
+
+    @Override
+    public String toString() {
+        String scheme;
+        String currentUri;
+        String currentUser = "";
+        String currentPass = "";
+        if (uri.startsWith("https")) {
+            scheme = "https://";
+            currentUri = uri.replaceFirst("https:\\/\\/", "");
+        } else if (uri.startsWith("http")) {
+            scheme = "http://";
+            currentUri = uri.replaceFirst("http:\\/\\/", "");
+        } else {
+            // We'll use http as the default for a proxy
+            scheme = "http://";
+            currentUri = uri;
+        }
+        if (username != null) {
+            currentUser = username;
+        }
+        if (password != null) {
+            currentPass = password;
+        }
+
+        // If we have user/password
+        if (currentUser.equalsIgnoreCase("") || currentPass.equalsIgnoreCase("")) {
+            currentUri = scheme + currentUser + ":" + currentPass + "@" + currentUri;
+        } else {
+            currentUri = scheme + currentUri;
+        }
+
+        return currentUri;
+    }
 }
