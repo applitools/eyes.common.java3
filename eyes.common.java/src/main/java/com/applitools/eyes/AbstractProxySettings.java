@@ -110,8 +110,8 @@ public abstract class AbstractProxySettings {
             scheme = "http://";
             currentUri = uri.replaceFirst("http:\\/\\/", "");
         } else {
-            // We'll use http as the default for a proxy
-            scheme = "http://";
+            // The user explicitly did not provide a scheme, so we'll honor this.
+            scheme = "";
             currentUri = uri;
         }
         if (username != null) {
@@ -122,7 +122,7 @@ public abstract class AbstractProxySettings {
         }
 
         // If we have user/password
-        if (currentUser.equalsIgnoreCase("") || currentPass.equalsIgnoreCase("")) {
+        if (!currentUser.equalsIgnoreCase("") || !currentPass.equalsIgnoreCase("")) {
             currentUri = scheme + currentUser + ":" + currentPass + "@" + currentUri;
         } else {
             currentUri = scheme + currentUri;
