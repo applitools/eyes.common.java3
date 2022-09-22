@@ -40,7 +40,7 @@ public abstract class AbstractAutProxySettings {
 
     public String[] getDomains() { return this.domains; }
 
-    public String getAutProxyMode() {
-        return this.autProxyMode.getName();
+    public AutProxyMode getAutProxyMode() {
+        return this.autProxyMode;
     }
 }
