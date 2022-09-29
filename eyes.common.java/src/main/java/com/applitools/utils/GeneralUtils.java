@@ -16,18 +16,10 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.zip.GZIPOutputStream;
 
-import com.applitools.eyes.EyesException;
-import com.applitools.eyes.EyesRunnable;
-import com.applitools.eyes.Logger;
+import com.applitools.eyes.*;
 import com.applitools.eyes.logging.Stage;
 import com.applitools.eyes.logging.TraceLevel;
 import com.applitools.eyes.logging.Type;
@@ -53,6 +45,7 @@ public class GeneralUtils {
       "E, dd MMM yyyy HH:mm:ss 'GMT'";
   private static final String QUESTION_MARK = "?";
 
+  private static Logger logger = new Logger();
   private GeneralUtils() {
   }
 
@@ -439,8 +432,8 @@ public class GeneralUtils {
   }
 
   public static void tryRunTaskWithRetry(EyesRunnable task, long retryTimeoutSeconds, long sleepTimeBetweenRetiesMS,
-                                         String errorMessageOnTimeout) throws EyesException {
-
+                                         String errorMessageOnTimeout, LogHandler logHandler) throws EyesException {
+    logger.setLogHandler(Optional.ofNullable(logHandler).orElse(new NullLogHandler()));
     long taskStartTimeMS = System.currentTimeMillis();
     long taskElapsedTimeSeconds = 0;
     boolean taskWasNotRun = true;
@@ -454,25 +447,27 @@ public class GeneralUtils {
         taskWasNotRun = false;
 
       } catch (EyesException e) {
-        System.out.println("Failed to run the task '" + task.getName() +"'.");
+
+        logger.log(TraceLevel.Error, (String) null, null, null, "Failed to run the task '" + task.getName() +"'.");
         // If we're passed the timeout, just re-throw
         taskElapsedTimeSeconds = (taskRunCurrentTime - taskStartTimeMS) / 1000;
         if (taskElapsedTimeSeconds >= retryTimeoutSeconds) {
           System.out.println(errorMessageOnTimeout);
+          logger.log(TraceLevel.Info, (String) null, null, null, errorMessageOnTimeout);
           throw e;
         }
 
         // Did not pass timeout, sleep before retry
-        System.out.println("Waiting a bit before retry...");
+        logger.log(TraceLevel.Info, (String) null, null, null, "Waiting a bit before retry...");
         try {
           Thread.sleep(sleepTimeBetweenRetiesMS);
         } catch (InterruptedException ex) { // We should not be interrupted
           String errorMessage = GeneralUtils.createErrorMessageFromExceptionWithText(ex,
                   "Got interrupted while waiting for server start retry!");
-          System.out.println(errorMessage);
+          logger.log(TraceLevel.Error, (String) null, null, null, errorMessage);
           throw new EyesException(errorMessage, ex);
         }
-        System.out.println("Retrying.");
+        logger.log(TraceLevel.Info, (String) null, null, null, "Retrying.");
       }
     } while (taskWasNotRun);
   }
