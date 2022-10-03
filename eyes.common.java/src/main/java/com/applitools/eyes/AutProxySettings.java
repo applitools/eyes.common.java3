@@ -1,8 +1,7 @@
 package com.applitools.eyes;
 
-public class AutProxySettings {
+public class AutProxySettings extends AbstractProxySettings {
 
-    protected AbstractProxySettings abstractProxySettings;
     protected String[] domains;
     protected AutProxyMode autProxyMode;
 
@@ -31,12 +30,15 @@ public class AutProxySettings {
      * If AUT proxy is set to null, the behavior will be the same as {@link #AutProxySettings(AbstractProxySettings)}
      */
     public AutProxySettings(AbstractProxySettings proxySettings, String[] domains, AutProxyMode autProxyMode) {
-        this.abstractProxySettings = proxySettings;
+        super(proxySettings.getUri(), proxySettings.getPort(), proxySettings.getUsername(), proxySettings.getPassword());
+
+        this.uri = proxySettings.getUri();
+        this.password = proxySettings.getPassword();
+        this.username = proxySettings.getUsername();
+        this.port = proxySettings.getPort();
         this.domains = domains;
         this.autProxyMode = autProxyMode;
     }
-
-    public AbstractProxySettings getProxy() { return this.abstractProxySettings; }
 
     public String[] getDomains() { return this.domains; }
 
