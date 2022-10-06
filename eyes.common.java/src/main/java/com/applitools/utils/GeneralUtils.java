@@ -439,7 +439,7 @@ public class GeneralUtils {
   }
 
   public static void tryRunTaskWithRetry(EyesRunnable task, long retryTimeoutSeconds, long sleepTimeBetweenRetiesMS,
-                                         String errorMessageOnTimeout) throws EyesException {
+                                         String errorMessageOnTimeout, Logger logger) throws EyesException {
 
     long taskStartTimeMS = System.currentTimeMillis();
     long taskElapsedTimeSeconds = 0;
@@ -454,25 +454,25 @@ public class GeneralUtils {
         taskWasNotRun = false;
 
       } catch (EyesException e) {
-        System.out.println("Failed to run the task '" + task.getName() +"'.");
+        logger.log(TraceLevel.Info, Stage.GENERAL, "Failed to run the task '" + task.getName() +"'.");
         // If we're passed the timeout, just re-throw
         taskElapsedTimeSeconds = (taskRunCurrentTime - taskStartTimeMS) / 1000;
         if (taskElapsedTimeSeconds >= retryTimeoutSeconds) {
-          System.out.println(errorMessageOnTimeout);
+          logger.log(TraceLevel.Error, Stage.GENERAL, errorMessageOnTimeout);
           throw e;
         }
 
         // Did not pass timeout, sleep before retry
-        System.out.println("Waiting a bit before retry...");
+        logger.log(TraceLevel.Info, Stage.GENERAL, "Waiting a bit before retry...");
         try {
           Thread.sleep(sleepTimeBetweenRetiesMS);
         } catch (InterruptedException ex) { // We should not be interrupted
           String errorMessage = GeneralUtils.createErrorMessageFromExceptionWithText(ex,
                   "Got interrupted while waiting for server start retry!");
-          System.out.println(errorMessage);
+          logger.log(TraceLevel.Error, Stage.GENERAL, errorMessage);
           throw new EyesException(errorMessage, ex);
         }
-        System.out.println("Retrying.");
+        logger.log(TraceLevel.Info, Stage.GENERAL, "Retrying.");
       }
     } while (taskWasNotRun);
   }
