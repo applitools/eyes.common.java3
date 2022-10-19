@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
@@ -487,8 +488,14 @@ public class GeneralUtils {
       return errorText;
     }
 
-    String fullError = errorText + " \nGot exception of type: " +  e.getClass()
-            + " , with the following error message: '" + e.getMessage() + "'\nStacktrace: " + Arrays.toString(e.getStackTrace());
+    String fullError = "";
+    if (e instanceof InvocationTargetException) {
+      fullError = errorText + " \nGot exception of type: " + e.getClass()
+              + " , with the following error message: '" + e.getCause().getMessage() + "'\nStacktrace: " + Arrays.toString(e.getStackTrace());
+    } else {
+      fullError = errorText + " \nGot exception of type: " + e.getClass()
+              + " , with the following error message: '" + e.getMessage() + "'\nStacktrace: " + Arrays.toString(e.getStackTrace());
+    }
 
     return fullError + "";
   }
