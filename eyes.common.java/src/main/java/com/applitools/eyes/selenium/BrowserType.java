@@ -2,33 +2,34 @@ package com.applitools.eyes.selenium;
 
 import java.util.Arrays;
 
+import com.applitools.eyes.IBrowserType;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum BrowserType {
-    CHROME("chrome"),
-    CHROME_ONE_VERSION_BACK("chrome-one-version-back"),
-    CHROME_TWO_VERSIONS_BACK("chrome-two-versions-back"),
-    FIREFOX("firefox"),
-    FIREFOX_ONE_VERSION_BACK("firefox-one-version-back"),
-    FIREFOX_TWO_VERSIONS_BACK("firefox-two-versions-back"),
-    SAFARI("safari"),
-    SAFARI_ONE_VERSION_BACK("safari-one-version-back"),
-    SAFARI_TWO_VERSIONS_BACK("safari-two-versions-back"),
-    SAFARI_EARLY_ACCESS("safari-earlyaccess"),
-    IE_10("ie10"),
-    IE_11("ie11"),
+public enum BrowserType implements IBrowserType {
+    CHROME(IBrowserType.CHROME),
+    CHROME_ONE_VERSION_BACK(IBrowserType.CHROME_ONE_VERSION_BACK),
+    CHROME_TWO_VERSIONS_BACK(IBrowserType.CHROME_TWO_VERSIONS_BACK),
+    FIREFOX(IBrowserType.FIREFOX),
+    FIREFOX_ONE_VERSION_BACK(IBrowserType.FIREFOX_ONE_VERSION_BACK),
+    FIREFOX_TWO_VERSIONS_BACK(IBrowserType.FIREFOX_TWO_VERSIONS_BACK),
+    SAFARI(IBrowserType.SAFARI),
+    SAFARI_ONE_VERSION_BACK(IBrowserType.SAFARI_ONE_VERSION_BACK),
+    SAFARI_TWO_VERSIONS_BACK(IBrowserType.SAFARI_TWO_VERSIONS_BACK),
+    SAFARI_EARLY_ACCESS(IBrowserType.SAFARI_EARLY_ACCESS),
+    IE_10(IBrowserType.IE_10),
+    IE_11(IBrowserType.IE_11),
 
     /**
      * @deprecated The 'EDGE' option that is being used in your browsers' configuration will soon be deprecated.
      * Please change it to either "EDGE_LEGACY" for the legacy version or to "EDGE_CHROMIUM" for the new
      * Chromium-based version.
      */
-    EDGE("edge"),
+    EDGE(IBrowserType.EDGE),
 
-    EDGE_LEGACY("edgelegacy"),
-    EDGE_CHROMIUM("edgechromium"),
-    EDGE_CHROMIUM_ONE_VERSION_BACK("edgechromium-one-version-back"),
-    EDGE_CHROMIUM_TWO_VERSION_BACK("edgechromium-two-version-back");
+    EDGE_LEGACY(IBrowserType.EDGE_LEGACY),
+    EDGE_CHROMIUM(IBrowserType.EDGE_CHROMIUM),
+    EDGE_CHROMIUM_ONE_VERSION_BACK(IBrowserType.EDGE_CHROMIUM_ONE_VERSION_BACK),
+    EDGE_CHROMIUM_TWO_VERSION_BACK(IBrowserType.EDGE_CHROMIUM_TWO_VERSION_BACK);
 
 
     private final String name;
