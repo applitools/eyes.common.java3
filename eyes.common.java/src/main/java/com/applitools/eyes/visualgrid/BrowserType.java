@@ -1,4 +1,4 @@
-package com.applitools.eyes;
+package com.applitools.eyes.visualgrid;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
