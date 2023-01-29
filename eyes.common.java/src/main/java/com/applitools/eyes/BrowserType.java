@@ -1,8 +1,8 @@
-package com.applitools.eyes.selenium;
-
-import java.util.Arrays;
+package com.applitools.eyes;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+
+import java.util.Arrays;
 
 public enum BrowserType {
     CHROME("chrome"),
