@@ -11,5 +11,6 @@ public enum Stage {
     OCR,
     VCR,
     VHS_RECORDER,
-    SCREENSHOT_RETRIEVER
+    SCREENSHOT_RETRIEVER,
+    SPEC_DRIVER
 }
