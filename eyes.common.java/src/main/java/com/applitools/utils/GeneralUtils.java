@@ -14,6 +14,7 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -498,6 +499,12 @@ public class GeneralUtils {
     }
 
     return fullError + "";
+  }
+
+  public static String createEyesMessageWithLevel(String message, String level) {
+    return "eyes | " + new Timestamp(System.currentTimeMillis()) +
+            " | [" + level + "] | " +
+            message;
   }
 
 }
